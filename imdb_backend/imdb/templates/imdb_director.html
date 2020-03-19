@@ -25,16 +25,25 @@ His other works include the action films Sye and Vikramarkudu featured at the 37
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th></th>
+                    <th>genres</th>
+                    <th>Release Date</th>
+                    <th>Average Rating</th>
+                    <th>Collections(in Crores.)</th>
                 </tr>
                 </thead>
-                {% for actor in context%}
+                {% for movie in context%}
                 <tbody>
                 <tr class="tr-shadow">
+                    
                     <td class="desc">
-                        <a href="/imdb/director/1/">{{director.name}}</a>
+                        <a href="/imdb/director/{{movie.id}}/">{{movie.name}}</a>
                     </td>
-                </tr>
+                    <td>{{movie.genres}}</td>
+                     <td>{{movie.release_date}}</td>
+                    <td>
+                        <span class="status--high">{{movie.average_rating}}</span>
+                    </td>
+                    <td>{{movie.box_office_collection_in_crores}}</td>
                 <tr class="spacer"></tr>
                 </tbody>
                 {% endfor%}

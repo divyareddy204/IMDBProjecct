@@ -24,17 +24,26 @@ His works include Varsham (2004), Chatrapathi (2005), Chakram (2005), Billa (200
             <table class="table table-data2">
                 <thead>
                 <tr>
-                    <th>Actor id</th>
-                    <th>Name</th>
+                    <th>nME</th>
+                    <th>genres</th>
+                    <th>Release Date</th>
+                    <th>Average Rating</th>
+                    <th>Collections(in Crores.)</th>
                 </tr>
                 </thead>
-                 {% for actor in context%}
+                 {% for movie in context%}
                 <tbody>
                 <tr class="tr-shadow">
-                    <td>{{actor.actor_id}}</td>
                     <td class="desc">
-                        <a href="/imdb/actor/{{actor.actor_id}}/">{{actor.name}}</a>
+                        <a href="/imdb/actor/{{movie.actor_id}}/">{{movie.name}}</a>
                     </td>
+                    <td>{{movie.genres}}</td>
+                     <td>{{movie.release_date}}</td>
+                    <td>
+                        <span class="status--high">{{movie.average_rating}}</span>
+                    </td>
+                    <td>{{movie.box_office_collection_in_crores}}</td>
+        
                 </tr>
                 <tr class="spacer"></tr>
                 </tbody>

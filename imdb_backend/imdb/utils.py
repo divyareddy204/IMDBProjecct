@@ -15,7 +15,7 @@ def get_one_bar_plot_data():
     }
     return {
         'single_bar_chart_data_one': json.dumps(single_bar_chart_data),
-        'single_bar_chart_data_one_title': 'Title'
+        'single_bar_chart_data_one_title': 'rating of a director'
     }
 
 
@@ -87,7 +87,7 @@ def get_multi_line_plot_data():
 def get_area_plot_data():
     import json
     area_plot_data = {
-        "labels": ["2010", "2011", "2012", "2013", "2014", "2015", "2016"],
+        "labels": ["2015", "2011", "2012", "2013", "2014", "2015", "2016"],
         "type": 'line',
         "defaultFontFamily": 'Poppins',
         "datasets": [{
@@ -104,7 +104,7 @@ def get_area_plot_data():
     }
     return {
         'area_plot_data_one': json.dumps(area_plot_data),
-        'area_plot_data_one_title': 'Title'
+        'area_plot_data_one_title': 'rating of a directors'
     }
 
 
@@ -279,40 +279,48 @@ def execute_sql_query(sql_query):
 
 def populate_actor():
     import json
-    object=open('/home/apiiitrkv/Desktop/complete_data/actors_5000.json','r') 
+    object=open('/home/apiiitrkv/Desktop/100_movies/actors_100.json','r') 
     object1=object.read()
     actors_list=json.loads(object1)
-    print(actors_list[:5])
     for actor in actors_list:
-        Actor.objects.create(actor_id=actor['actor_id'],name=actor['name'])
+        Actor.objects.create(actor_id=actor['actor_id'],name=actor['name'],gender=actor['gender'])
+
 def populate_director():
     import json
-    object=open('/home/apiiitrkv/Desktop/complete_data/directors_5000.json','r') 
+    object=open('/home/apiiitrkv/Desktop/100_movies/directors_100.json','r') 
     object1=object.read()
     directors_list=json.loads(object1)
     for director in directors_list:
-      Director.objects.create(name=director)
+      Director.objects.create(
+          name=director['name'],gender=director['gender'],
+          no_of_facebook_likes=director['no_of_facebook_likes'])
 
 
 def populate_movie():
     import json
-    object=open('/home/apiiitrkv/Desktop/complete_data/movies_5000.json','r') 
+    import random
+    object=open('/home/apiiitrkv/Desktop/100_movies/movies_100.json','r') 
     object1=object.read()
     movies_list=json.loads(object1)
 
     for movies in movies_list:
-        try:
-            d=Director.objects.get(name=movies["director_name"])
-        except:
-            d=Director.objects.get(name="Gore Verbinski")
-
-        Movie.objects.create(movie_id=movies["movie_id"],name=movies["name"],box_office_collection_in_crores=movies["box_office_collection_in_crores"],
-        release_date=movies["release_date"],director=d)
-        director=d
+        
+        movie_obj=Movie.objects.create(
+            movie_id=movies["movie_id"],
+            name=movies["name"],
+            box_office_collection_in_crores=movies["box_office_collection_in_crores"],
+            release_date=movies["year_of_release"],
+            director=Director.objects.get(name=movies["director_name"]),
+            genres=random.choice(movies['genres']),
+            country=movies['country'],
+            average_rating=movies['average_rating']
+            )
         for actor in movies["actors"]:
-            Cast.objects.create(actor=Actor.objects.get(actor_id = actor["actor_id"]),
-            movie=Movie.objects.get(movie_id=movies["movie_id"]),
-            role=actor["role"],is_debut_movie=actor["is_debut_movie"])
+                Cast.objects.create(
+                actor=Actor.objects.get(actor_id = actor["actor_id"]),
+                movie=movie_obj,
+                role=actor["role"],
+                is_debut_movie=actor["is_debut_movie"])
 
 '''#Task-3
 def get_no_of_distinct_movies_actor_acted(actor_id):

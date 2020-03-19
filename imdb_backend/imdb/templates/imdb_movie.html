@@ -28,24 +28,22 @@ The film was conceived by Rajamouli's father K. V. Vijayendra Prasad, who random
                 <tr>
                     <th>Actor id</th>
                     <th>Name</th>
-                    <th>Date of Birth</th>
-                    <th>Role</th>
-                    <th></th>
+                    <th>gender</th>
                 </tr>
                 </thead>
+                 {% for actor in context%}
                 <tbody>
                 <tr class="tr-shadow">
-                    <td>10001231</td>
+                    <td>{{actor.actor_id}}</td>
                     <td >
-                        <a href="/imdb/actor/10001231/">Prabhas</a>
+                        <a href="/imdb/actor/{{actor.actor_id}}/">{{actor.name}}</a>
                     </td>
-                    <td>1980-09-27</td>
-                    <td>
-                        Mahendra Baahubali
-                    </td>
+                    <td>{{actor.gender}}</td>
+            
                 </tr>
                 <tr class="spacer"></tr>
                 </tbody>
+                {% endfor %}
             </table>
         </div>
         <!-- END DATA TABLE -->
